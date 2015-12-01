@@ -2,14 +2,6 @@ import tensorflow as tf
 import numpy as np
 import input_data
 
-def model(X, mask, W, b, W_prime, b_prime):
-    tilde_X = mask * X # corrupted X
-
-    Y = tf.nn.sigmoid(tf.matmul(tilde_X, W) + b) # hidden state
-    Z = tf.nn.sigmoid(tf.matmul(Y, W_prime) + b_prime) # reconstructed input
-    return Z
-
-
 mnist_width = 28
 n_visible = mnist_width * mnist_width
 n_hidden = 500
@@ -31,7 +23,14 @@ W = tf.Variable(W_init, name='W')
 b = tf.Variable(tf.zeros([n_hidden]), name='b')
 
 W_prime = tf.transpose(W) # tight weights between encoder and decoder
-b_prime = tf.Variable(tf.zeros([n_visible]))
+b_prime = tf.Variable(tf.zeros([n_visible]), name='b_prime')
+
+def model(X, mask, W, b, W_prime, b_prime):
+    tilde_X = mask * X # corrupted X
+
+    Y = tf.nn.sigmoid(tf.matmul(tilde_X, W) + b) # hidden state
+    Z = tf.nn.sigmoid(tf.matmul(Y, W_prime) + b_prime) # reconstructed input
+    return Z
 
 # build model graph
 Z = model(X, mask, W, b, W_prime, b_prime)
