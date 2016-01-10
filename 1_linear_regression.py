@@ -1,7 +1,11 @@
+#!/usr/bin/env python
 import tensorflow as tf
 import numpy as np
 
+#trX.shape: (101,)
+#trX: arr([-1., -0.98, -0.96, ....., 0.98, 1.])
 trX = np.linspace(-1, 1, 101)
+
 trY = 2 * trX + np.random.randn(*trX.shape) * 0.33 # create a y value which is approximately linear but with some random noise
 
 X = tf.placeholder("float") # create symbolic variables
@@ -23,8 +27,16 @@ sess = tf.Session()
 init = tf.initialize_all_variables() # you need to initialize variables (in this case just variable W)
 sess.run(init)
 
+# note zip is a python built-in function
+# this function will returns an iterator of tuples 
+# x = [1, 2, 3], y = [4, 5, 6]
+# then zip(x, y) will be:
+# [(1, 4), (2, 5), (3, 6)]
+
 for i in range(100):
+    #print(i)
     for (x, y) in zip(trX, trY): 
         sess.run(train_op, feed_dict={X: x, Y: y})
 
-print(sess.run(w))  # something around 2
+wgt = sess.run(w)
+print(wgt)  # something around 2
