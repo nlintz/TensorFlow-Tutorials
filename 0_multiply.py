@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import tensorflow as tf
 
 a = tf.placeholder("float") # Create a symbolic variable 'a'

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Functions for downloading and reading MNIST data."""
 import gzip
 import os
