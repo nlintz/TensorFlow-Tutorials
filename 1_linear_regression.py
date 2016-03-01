@@ -15,7 +15,7 @@ def model(X, w):
 w = tf.Variable(0.0, name="weights") # create a shared variable (like theano.shared) for the weight matrix
 y_model = model(X, w)
 
-cost = (tf.pow(Y-y_model, 2)) # use sqr error for cost function
+cost = tf.square(Y - y_model) # use square error for cost function
 
 train_op = tf.train.GradientDescentOptimizer(0.01).minimize(cost) # construct an optimizer to minimize cost and fit line to my data
 
