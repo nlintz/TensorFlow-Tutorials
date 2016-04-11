@@ -7,7 +7,7 @@ def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
 
 
-def model(X, w_h, w_h2, w_o, p_drop_input, p_drop_hidden):
+def model(X, w_h, w_h2, w_o, p_drop_input, p_drop_hidden): # this network is the same as the previous one except with an extra hidden layer + dropout
     X = tf.nn.dropout(X, p_drop_input)
     h = tf.nn.relu(tf.matmul(X, w_h))
 

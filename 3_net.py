@@ -8,8 +8,8 @@ def init_weights(shape):
 
 
 def model(X, w_h, w_o):
-    h = tf.nn.sigmoid(tf.matmul(X, w_h))
-    return tf.matmul(h, w_o)
+    h = tf.nn.sigmoid(tf.matmul(X, w_h)) # this is a basic mlp, think 2 stacked logistic regressions
+    return tf.matmul(h, w_o) # note that we dont take the softmax at the end because our cost fn does that for us
 
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
@@ -18,13 +18,13 @@ trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images, 
 X = tf.placeholder("float", [None, 784])
 Y = tf.placeholder("float", [None, 10])
 
-w_h = init_weights([784, 625])
+w_h = init_weights([784, 625]) # create symbolic variables
 w_o = init_weights([625, 10])
 
 py_x = model(X, w_h, w_o)
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
-train_op = tf.train.GradientDescentOptimizer(0.05).minimize(cost)
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y)) # compute costs
+train_op = tf.train.GradientDescentOptimizer(0.05).minimize(cost) # construct an optimizer
 predict_op = tf.argmax(py_x, 1)
 
 sess = tf.Session()
