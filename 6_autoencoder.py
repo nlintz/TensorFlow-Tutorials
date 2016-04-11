@@ -22,22 +22,23 @@ W_init = tf.random_uniform(shape=[n_visible, n_hidden],
 W = tf.Variable(W_init, name='W')
 b = tf.Variable(tf.zeros([n_hidden]), name='b')
 
-W_prime = tf.transpose(W) # tight weights between encoder and decoder
+W_prime = tf.transpose(W)  # tied weights between encoder and decoder
 b_prime = tf.Variable(tf.zeros([n_visible]), name='b_prime')
 
-def model(X, mask, W, b, W_prime, b_prime):
-    tilde_X = mask * X # corrupted X
 
-    Y = tf.nn.sigmoid(tf.matmul(tilde_X, W) + b) # hidden state
-    Z = tf.nn.sigmoid(tf.matmul(Y, W_prime) + b_prime) # reconstructed input
+def model(X, mask, W, b, W_prime, b_prime):
+    tilde_X = mask * X  # corrupted X
+
+    Y = tf.nn.sigmoid(tf.matmul(tilde_X, W) + b)  # hidden state
+    Z = tf.nn.sigmoid(tf.matmul(Y, W_prime) + b_prime)  # reconstructed input
     return Z
 
 # build model graph
 Z = model(X, mask, W, b, W_prime, b_prime)
 
 # create cost function
-cost = tf.reduce_sum(tf.pow(X - Z, 2)) # minimize squared error
-train_op = tf.train.GradientDescentOptimizer(0.02).minimize(cost) # construct an optimizer
+cost = tf.reduce_sum(tf.pow(X - Z, 2))  # minimize squared error
+train_op = tf.train.GradientDescentOptimizer(0.02).minimize(cost)  # construct an optimizer
 
 # load MNIST data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)

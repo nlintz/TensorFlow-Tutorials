@@ -12,6 +12,7 @@ Newmu's [Theano Tutorials](https://github.com/Newmu/Theano-Tutorials)
 * Deep Feedforward Neural Network (Multilayer Perceptron with 2 Hidden Layers O.o)
 * Convolutional Neural Network
 * Denoising Autoencoder
+* LSTM
 
 ***Dependencies***
 * TensorFlow

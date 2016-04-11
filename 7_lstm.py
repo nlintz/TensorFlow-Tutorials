@@ -26,7 +26,7 @@ input_vec_size = lstm_size = 28
 time_step_size = 28
 
 batch_size = 128
-test_size=256
+test_size = 256
 
 def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
@@ -79,12 +79,12 @@ sess.run(init)
 for i in range(100):
     for start, end in zip(range(0, len(trX), batch_size), range(batch_size, len(trX), batch_size)):
         sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
-                                       init_state: np.zeros((batch_size, state_size))})
-    
-    test_indices = np.arange(len(teX)) # Get A Test Batch
+                                      init_state: np.zeros((batch_size, state_size))})
+
+    test_indices = np.arange(len(teX))  # Get A Test Batch
     np.random.shuffle(test_indices)
     test_indices = test_indices[0:test_size]
-    
+
     print i, np.mean(np.argmax(teY[test_indices], axis=1) ==
                      sess.run(predict_op, feed_dict={X: teX[test_indices],
                                                      Y: teY[test_indices],
