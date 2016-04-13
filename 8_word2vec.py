@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 
 # Configuration
 batch_size = 20
-# Dimension of the embedding vector.
-# It's too small, but let's make it 2 for simple visulization
+# Dimension of the embedding vector. Two too small to get
+# any meaningful embeddings, but let's make it 2 for simple visualization
 embedding_size = 2
 num_sampled = 15    # Number of negative examples to sample.
 
@@ -23,7 +23,7 @@ sentences = ["the quick brown fox jumped over the lazy dog",
             "cats are playful",
             "cats are natural hunters",
             "It's raining cats and dogs",
-            "dogs and cats love Sung"]
+            "dogs and cats love sung"]
 
 # sentences to words and count
 words = " ".join(sentences).split()
@@ -86,15 +86,14 @@ nce_biases = tf.Variable(tf.zeros([voc_size]))
 
 # Compute the average NCE loss for the batch.
 # This does the magic:
-# tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled, num_classes ...)
-# It automatically draws a new sample of the negative labels each
-# time we evaluate the loss.
+#   tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled, num_classes ...)
+# It automatically draws negative samples when we evaluate the loss.
 loss = tf.reduce_mean(
   tf.nn.nce_loss(nce_weights, nce_biases, embed, train_labels,
                  num_sampled, voc_size))
 
-# Use adam optimizer
-optimizer = tf.train.AdamOptimizer(1e-1).minimize(loss)
+# Use the adam optimizer
+train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
 
 # Launch the graph in a session
 with tf.Session() as sess:
@@ -103,18 +102,17 @@ with tf.Session() as sess:
 
     for step in range(10001):
         batch_inputs, batch_labels = generate_batch(batch_size)
-        _, loss_val = sess.run([optimizer, loss],
+        _, loss_val = sess.run([train_op, loss],
                 feed_dict={train_inputs: batch_inputs, train_labels: batch_labels})
         if step % 200 == 0:
           print("Loss at ", step, loss_val) # Report the loss
 
-    # Final embeddings are ready for you to use
+    # Final embeddings are ready for you to use. Need to normalize for practical use
     trained_embeddings = embeddings.eval()
 
 # Show word2vec if dim is 2
 if trained_embeddings.shape[1] == 2:
     labels = rdic[:10] # Show top 10 words
-
     for i, label in enumerate(labels):
         x, y = trained_embeddings[i,:]
         plt.scatter(x, y)
