@@ -44,16 +44,17 @@ train_op = tf.train.GradientDescentOptimizer(0.02).minimize(cost)  # construct a
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images, mnist.test.labels
 
-sess = tf.Session()
-init = tf.initialize_all_variables()
-sess.run(init)
+# Launch the graph in a session
+with tf.Session() as sess:
+    # you need to initialize all variables
+    tf.initialize_all_variables().run()
 
-for i in range(20):
-    for start, end in zip(range(0, len(trX), 100), range(100, len(trX), 100)):
-        input_ = trX[start:end]
-        mask_np = np.random.binomial(1, 1 - corruption_level, input_.shape)
-        sess.run(train_op, feed_dict={X: input_, mask: mask_np})
+    for i in range(20):
+        for start, end in zip(range(0, len(trX), 100), range(100, len(trX), 100)):
+            input_ = trX[start:end]
+            mask_np = np.random.binomial(1, 1 - corruption_level, input_.shape)
+            sess.run(train_op, feed_dict={X: input_, mask: mask_np})
 
-    mask_np = np.random.binomial(1, 1 - corruption_level, teX.shape)
-    print i, sess.run(cost, feed_dict={X: teX, mask: mask_np})
+        mask_np = np.random.binomial(1, 1 - corruption_level, teX.shape)
+        print i, sess.run(cost, feed_dict={X: teX, mask: mask_np})
 
