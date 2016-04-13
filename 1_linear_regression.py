@@ -30,4 +30,4 @@ with tf.Session() as sess:
         for (x, y) in zip(trX, trY):
             sess.run(train_op, feed_dict={X: x, Y: y})
 
-    print(sess.run(w))  # something around 2
+    print(sess.run(w))  # It should be something around 2
