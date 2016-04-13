@@ -54,21 +54,22 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
 train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
 predict_op = tf.argmax(py_x, 1)
 
-sess = tf.Session()
-init = tf.initialize_all_variables()
-sess.run(init)
+# Launch the graph in a session
+with tf.Session() as sess:
+    # you need to initialize all variables
+    tf.initialize_all_variables().run()
 
-for i in range(100):
-    for start, end in zip(range(0, len(trX), 128), range(128, len(trX), 128)):
-        sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
-                                      p_keep_conv: 0.8, p_keep_hidden: 0.5})
-    
-    test_indices = np.arange(len(teX)) # Get A Test Batch
-    np.random.shuffle(test_indices)
-    test_indices = test_indices[0:256]
-    
-    print i, np.mean(np.argmax(teY[test_indices], axis=1) ==
-                     sess.run(predict_op, feed_dict={X: teX[test_indices],
-                                                     Y: teY[test_indices],
-                                                     p_keep_conv: 1.0,
-                                                     p_keep_hidden: 1.0}))
+    for i in range(100):
+        for start, end in zip(range(0, len(trX), 128), range(128, len(trX), 128)):
+            sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
+                                          p_keep_conv: 0.8, p_keep_hidden: 0.5})
+
+        test_indices = np.arange(len(teX)) # Get A Test Batch
+        np.random.shuffle(test_indices)
+        test_indices = test_indices[0:256]
+
+        print i, np.mean(np.argmax(teY[test_indices], axis=1) ==
+                         sess.run(predict_op, feed_dict={X: teX[test_indices],
+                                                         Y: teY[test_indices],
+                                                         p_keep_conv: 1.0,
+                                                         p_keep_hidden: 1.0}))
