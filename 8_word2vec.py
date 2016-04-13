@@ -5,10 +5,11 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 # Configuration
-batch_size = 25
-embedding_size = 2  # Dimension of the embedding vector.
-                    # Let's make it 2 for simple visulization
-num_sampled = 20    # Number of negative examples to sample.
+batch_size = 20
+# Dimension of the embedding vector.
+# It's too small, but let's make it 2 for simple visulization
+embedding_size = 2
+num_sampled = 15    # Number of negative examples to sample.
 
 # Sample sentences
 sentences = ["the quick brown fox jumped over the lazy dog",
@@ -27,7 +28,7 @@ sentences = ["the quick brown fox jumped over the lazy dog",
 # sentences to words and count
 words = " ".join(sentences).split()
 count = collections.Counter(words).most_common()
-print ("Word count", count)
+print ("Word count", count[:5])
 
 # Build dictionaries
 rdic = [i[0] for i in count] #reverse dic, idx -> word
@@ -36,14 +37,14 @@ voc_size = len(dic)
 
 # Make indexed word data
 data = [dic[word] for word in words]
-print('Sample data', data[:9], [rdic[t] for t in data[:9]])
+print('Sample data', data[:10], [rdic[t] for t in data[:10]])
 
 # Let's make a training data for window size 1 for simplicity
 # ([the, brown], quick), ([quick, fox], brown), ([brown, jumped], fox), ...
 cbow_pairs = [];
 for i in range(1, len(data)-1) :
     cbow_pairs.append([[data[i-1], data[i+1]], data[i]]);
-print('Context pairs', cbow_pairs)
+print('Context pairs', cbow_pairs[:10])
 
 # Let's make skip-gram pairs
 # (quick, the), (quick, brown), (brown, quick), (brown, fox), ...
@@ -51,14 +52,15 @@ skip_gram_pairs = [];
 for c in cbow_pairs:
     skip_gram_pairs.append([c[1], c[0][0]])
     skip_gram_pairs.append([c[1], c[0][1]])
-print('skip-gram pairs', skip_gram_pairs)
+print('skip-gram pairs', skip_gram_pairs[:5])
 
 def generate_batch(size):
     assert size < len(skip_gram_pairs)
     x_data=[]
     y_data = []
+    r = np.random.choice(range(len(skip_gram_pairs)), size, replace=False)
     np.random.shuffle(skip_gram_pairs)
-    for i in range(size):
+    for i in r:
         x_data.append(skip_gram_pairs[i][0])  # n dim
         y_data.append([skip_gram_pairs[i][1]])  # n, 1 dim
     return x_data, y_data
@@ -92,14 +94,14 @@ loss = tf.reduce_mean(
                  num_sampled, voc_size))
 
 # Use adam optimizer
-optimizer = tf.train.AdamOptimizer(0.1).minimize(loss)
+optimizer = tf.train.AdamOptimizer(1e-1).minimize(loss)
 
 # Launch the graph in a session
 with tf.Session() as sess:
     # Initializing all variables
     tf.initialize_all_variables().run()
 
-    for step in range(20001):
+    for step in range(10001):
         batch_inputs, batch_labels = generate_batch(batch_size)
         _, loss_val = sess.run([optimizer, loss],
                 feed_dict={train_inputs: batch_inputs, train_labels: batch_labels})
@@ -111,7 +113,7 @@ with tf.Session() as sess:
 
 # Show word2vec if dim is 2
 if trained_embeddings.shape[1] == 2:
-    labels = rdic[:15] # Show top 15 words
+    labels = rdic[:10] # Show top 10 words
 
     for i, label in enumerate(labels):
         x, y = trained_embeddings[i,:]
