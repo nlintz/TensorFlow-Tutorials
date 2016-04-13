@@ -59,7 +59,6 @@ def generate_batch(size):
     x_data=[]
     y_data = []
     r = np.random.choice(range(len(skip_gram_pairs)), size, replace=False)
-    np.random.shuffle(skip_gram_pairs)
     for i in r:
         x_data.append(skip_gram_pairs[i][0])  # n dim
         y_data.append([skip_gram_pairs[i][1]])  # n, 1 dim
