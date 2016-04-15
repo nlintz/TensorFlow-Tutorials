@@ -56,5 +56,5 @@ with tf.Session() as sess:
             sess.run(train_op, feed_dict={X: input_, mask: mask_np})
 
         mask_np = np.random.binomial(1, 1 - corruption_level, teX.shape)
-        print i, sess.run(cost, feed_dict={X: teX, mask: mask_np})
+        print(i, sess.run(cost, feed_dict={X: teX, mask: mask_np}))
 

@@ -67,4 +67,4 @@ with tf.Session() as sess:
         summary, acc = sess.run([merged, acc_op], feed_dict={X: teX, Y: teY,
                                           p_keep_input: 1.0, p_keep_hidden: 1.0})
         writer.add_summary(summary, i)  # Write summary
-        print i, acc                    # Report the accuracy
+        print(i, acc)                   # Report the accuracy
