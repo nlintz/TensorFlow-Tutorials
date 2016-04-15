@@ -99,11 +99,11 @@ with tf.Session() as sess:
     # Initializing all variables
     tf.initialize_all_variables().run()
 
-    for step in range(10001):
+    for step in range(100):
         batch_inputs, batch_labels = generate_batch(batch_size)
         _, loss_val = sess.run([train_op, loss],
                 feed_dict={train_inputs: batch_inputs, train_labels: batch_labels})
-        if step % 200 == 0:
+        if step % 10 == 0:
           print("Loss at ", step, loss_val) # Report the loss
 
     # Final embeddings are ready for you to use. Need to normalize for practical use
