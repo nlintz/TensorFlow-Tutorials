@@ -19,3 +19,5 @@ Newmu's [Theano Tutorials](https://github.com/Newmu/Theano-Tutorials)
 ***Dependencies***
 * TensorFlow
 * Numpy
+
+testing travis
