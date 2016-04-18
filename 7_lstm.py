@@ -45,7 +45,7 @@ def model(X, W, B, init_state, lstm_size):
     lstm = rnn_cell.BasicLSTMCell(lstm_size, forget_bias=1.0)
 
     # Get lstm cell output, time_step_size (28) arrays with lstm_size output: (batch_size, lstm_size)
-    outputs, states = rnn.rnn(lstm, X_split, initial_state=init_state)
+    outputs, _states = rnn.rnn(lstm, X_split, initial_state=init_state)
 
     # Linear activation
     # Get the last output
