@@ -5,12 +5,10 @@ import numpy as np
 import input_data
 import os
 
-'''
-This shows how to save/restore your model (trained variables).
-To see how it works, please stop this program during training and resart.
+# This shows how to save/restore your model (trained variables).
+# To see how it works, please stop this program during training and resart.
+# This network is the same as 3_net.py
 
-This network is the same as 3_net.py
-'''
 def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
 
