@@ -4,6 +4,8 @@ import tensorflow as tf
 import numpy as np
 import input_data
 
+batch_size = 128
+test_size = 256
 
 def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
@@ -63,13 +65,15 @@ with tf.Session() as sess:
     tf.initialize_all_variables().run()
 
     for i in range(100):
-        for start, end in zip(range(0, len(trX), 128), range(128, len(trX), 128)):
+        training_batch = zip(range(0, len(trX), batch_size),
+                             range(batch_size, len(trX), batch_size))
+        for start, end in training_batch:
             sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
                                           p_keep_conv: 0.8, p_keep_hidden: 0.5})
 
         test_indices = np.arange(len(teX)) # Get A Test Batch
         np.random.shuffle(test_indices)
-        test_indices = test_indices[0:256]
+        test_indices = test_indices[0:test_size]
 
         print(i, np.mean(np.argmax(teY[test_indices], axis=1) ==
                          sess.run(predict_op, feed_dict={X: teX[test_indices],
