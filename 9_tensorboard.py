@@ -53,7 +53,7 @@ with tf.name_scope("accuracy"):
 
 with tf.Session() as sess:
     # create a log writer. run 'tensorboard --logdir=./logs/nn_logs'
-    writer = tf.train.SummaryWriter("./logs/nn_logs", sess.graph)
+    writer = tf.train.SummaryWriter("./logs/nn_logs", sess.graph) # for 0.8
     merged = tf.merge_all_summaries()
 
     # you need to initialize all variables
