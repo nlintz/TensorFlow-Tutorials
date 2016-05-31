@@ -63,11 +63,11 @@ with tf.Session() as sess:
 
     ckpt = tf.train.get_checkpoint_state(ckpt_dir)
     if ckpt and ckpt.model_checkpoint_path:
-        print ckpt.model_checkpoint_path
+        print(ckpt.model_checkpoint_path)
         saver.restore(sess, ckpt.model_checkpoint_path) # restore all variables
 
     start = global_step.eval() # get last global_step
-    print "Start from:", start
+    print("Start from:", start)
 
     for i in range(start, 100):
         for start, end in zip(range(0, len(trX), 128), range(128, len(trX), 128)):
