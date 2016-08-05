@@ -32,11 +32,11 @@ def init_weights(shape):
 
 
 def model(X, W, B, lstm_size):
-    # X, input shape: (batch_size, input_vec_size, time_step_size)
+    # X, input shape: (batch_size, time_step_size, input_vec_size)
     XT = tf.transpose(X, [1, 0, 2])  # permute time_step_size and batch_size
-    # XT shape: (input_vec_size, batch_szie, time_step_size)
-    XR = tf.reshape(XT, [-1, lstm_size]) # each row has input for each lstm cell (lstm_size)
-    # XR shape: (input vec_size, batch_size)
+    # XT shape: (time_step_size, batch_size, input_vec_size)
+    XR = tf.reshape(XT, [-1, lstm_size]) # each row has input for each lstm cell (lstm_size=input_vec_size)
+    # XR shape: (time_step_size * batch_size, input_vec_size)
     X_split = tf.split(0, time_step_size, XR) # split them to time_step_size (28 arrays)
     # Each array shape: (batch_size, input_vec_size)
 
