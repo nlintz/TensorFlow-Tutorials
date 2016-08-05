@@ -50,7 +50,7 @@ with tf.Session() as sess:
     tf.initialize_all_variables().run()
 
     for i in range(100):
-        for start, end in zip(range(0, len(trX), 128), range(128, len(trX), 128)):
+        for start, end in zip(range(0, len(trX), 128), range(128, len(trX)+1, 128)):
             input_ = trX[start:end]
             mask_np = np.random.binomial(1, 1 - corruption_level, input_.shape)
             sess.run(train_op, feed_dict={X: input_, mask: mask_np})
