@@ -74,7 +74,7 @@ with tf.Session() as sess:
     tf.initialize_all_variables().run()
 
     for i in range(100):
-        for start, end in zip(range(0, len(trX), batch_size), range(batch_size, len(trX), batch_size)):
+        for start, end in zip(range(0, len(trX), batch_size), range(batch_size, len(trX)+1, batch_size)):
             sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end]})
 
         test_indices = np.arange(len(teX))  # Get A Test Batch

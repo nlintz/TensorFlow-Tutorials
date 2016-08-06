@@ -66,7 +66,7 @@ with tf.Session() as sess:
 
     for i in range(100):
         training_batch = zip(range(0, len(trX), batch_size),
-                             range(batch_size, len(trX), batch_size))
+                             range(batch_size, len(trX)+1, batch_size))
         for start, end in training_batch:
             sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
                                           p_keep_conv: 0.8, p_keep_hidden: 0.5})
