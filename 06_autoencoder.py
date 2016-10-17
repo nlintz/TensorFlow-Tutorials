@@ -1,6 +1,22 @@
 import tensorflow as tf
 import numpy as np
 import input_data
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import pdb
+
+## Visualizing reconstructions
+def vis(images, save_name):
+    dim = images.shape[0]
+    n_image_rows = int(np.ceil(np.sqrt(dim)))
+    n_image_cols = int(np.ceil(dim * 1.0/n_image_rows))
+    gs = gridspec.GridSpec(n_image_rows,n_image_cols,top=1., bottom=0., right=1., left=0., hspace=0., wspace=0.)
+    for g,count in zip(gs,range(int(dim))):
+        ax = plt.subplot(g)
+        ax.imshow(images[count,:].reshape((28,28)))
+        ax.set_xticks([])
+        ax.set_yticks([])
+    plt.savefig(save_name + '_vis.png')
 
 mnist_width = 28
 n_visible = mnist_width * mnist_width
@@ -39,7 +55,7 @@ Z = model(X, mask, W, b, W_prime, b_prime)
 # create cost function
 cost = tf.reduce_sum(tf.pow(X - Z, 2))  # minimize squared error
 train_op = tf.train.GradientDescentOptimizer(0.02).minimize(cost)  # construct an optimizer
-
+predict_op = Z
 # load MNIST data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images, mnist.test.labels
@@ -57,4 +73,11 @@ with tf.Session() as sess:
 
         mask_np = np.random.binomial(1, 1 - corruption_level, teX.shape)
         print(i, sess.run(cost, feed_dict={X: teX, mask: mask_np}))
-
+    # save the predictions for 100 images
+    mask_np = np.random.binomial(1, 1 - corruption_level, teX[:100].shape)
+    predicted_imgs = sess.run(predict_op, feed_dict={X: teX[:100], mask: mask_np})
+    input_imgs = teX[:100]
+    # plot the reconstructed images
+    vis(predicted_imgs,'pred')
+    vis(input_imgs,'in')
+    print('Done')
