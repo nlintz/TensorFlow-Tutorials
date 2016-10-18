@@ -82,5 +82,4 @@ with tf.Session() as sess:
         test_indices = test_indices[0:test_size]
 
         print(i, np.mean(np.argmax(teY[test_indices], axis=1) ==
-                         sess.run(predict_op, feed_dict={X: teX[test_indices],
-                                                         Y: teY[test_indices]})))
+                         sess.run(predict_op, feed_dict={X: teX[test_indices]})))
