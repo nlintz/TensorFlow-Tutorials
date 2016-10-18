@@ -3,7 +3,9 @@ import numpy as np
 import input_data
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import pdb
+import matplotlib
+# Force matplotlib to not use any X-server backend.
+matplotlib.use('Agg')
 
 ## Visualizing reconstructions
 def vis(images, save_name):
