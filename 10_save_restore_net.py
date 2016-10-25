@@ -77,6 +77,6 @@ with tf.Session() as sess:
         global_step.assign(i).eval() # set and update(eval) global_step with index, i
         saver.save(sess, ckpt_dir + "/model.ckpt", global_step=global_step)
         print(i, np.mean(np.argmax(teY, axis=1) ==
-                         sess.run(predict_op, feed_dict={X: teX, Y: teY,
+                         sess.run(predict_op, feed_dict={X: teX, 
                                                          p_keep_input: 1.0,
                                                          p_keep_hidden: 1.0})))

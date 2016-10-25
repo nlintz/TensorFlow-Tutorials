@@ -49,6 +49,6 @@ with tf.Session() as sess:
             sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end],
                                           p_keep_input: 0.8, p_keep_hidden: 0.5})
         print(i, np.mean(np.argmax(teY, axis=1) ==
-                         sess.run(predict_op, feed_dict={X: teX, Y: teY,
+                         sess.run(predict_op, feed_dict={X: teX, 
                                                          p_keep_input: 1.0,
                                                          p_keep_hidden: 1.0})))
