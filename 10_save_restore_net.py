@@ -2,7 +2,7 @@
 
 import tensorflow as tf
 import numpy as np
-import input_data
+from tensorflow.examples.tutorials.mnist import input_data
 import os
 
 # This shows how to save/restore your model (trained variables).
