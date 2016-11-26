@@ -2,7 +2,7 @@
 import tensorflow as tf
 
 import numpy as np
-import input_data
+from tensorflow.examples.tutorials.mnist import input_data
 
 # configuration
 #                        O * W + b -> 10 labels for each image, O[? 28], W[28 10], B[10]
@@ -68,8 +68,11 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
 train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
 predict_op = tf.argmax(py_x, 1)
 
+session_conf = tf.ConfigProto()
+session_conf.gpu_options.allow_growth = True
+
 # Launch the graph in a session
-with tf.Session() as sess:
+with tf.Session(config=session_conf) as sess:
     # you need to initialize all variables
     tf.initialize_all_variables().run()
 

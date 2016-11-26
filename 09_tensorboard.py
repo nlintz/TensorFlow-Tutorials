@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 import tensorflow as tf
-import input_data
-
+from tensorflow.examples.tutorials.mnist import input_data
 
 def init_weights(shape, name):
     return tf.Variable(tf.random_normal(shape, stddev=0.01), name=name)

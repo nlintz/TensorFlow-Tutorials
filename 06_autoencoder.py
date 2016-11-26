@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import input_data
+from tensorflow.examples.tutorials.mnist import input_data
 
 import matplotlib # to plot images
 # Force matplotlib to not use any X-server backend.
