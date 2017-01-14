@@ -24,7 +24,7 @@ train_op = tf.train.GradientDescentOptimizer(0.01).minimize(cost) # construct an
 # Launch the graph in a session
 with tf.Session() as sess:
     # you need to initialize variables (in this case just variable W)
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
 
     for i in range(100):
         for (x, y) in zip(trX, trY):
