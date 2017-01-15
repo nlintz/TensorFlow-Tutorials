@@ -1,5 +1,6 @@
 #Inspired by https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3%20-%20Neural%20Networks/recurrent_network.py
 import tensorflow as tf
+from tensorflow.contrib import rnn
 
 import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
@@ -37,14 +38,14 @@ def model(X, W, B, lstm_size):
     # XT shape: (time_step_size, batch_size, input_vec_size)
     XR = tf.reshape(XT, [-1, lstm_size]) # each row has input for each lstm cell (lstm_size=input_vec_size)
     # XR shape: (time_step_size * batch_size, input_vec_size)
-    X_split = tf.split(0, time_step_size, XR) # split them to time_step_size (28 arrays)
+    X_split = tf.split(XR, time_step_size, 0) # split them to time_step_size (28 arrays)
     # Each array shape: (batch_size, input_vec_size)
 
     # Make lstm with lstm_size (each input vector size)
-    lstm = tf.nn.rnn_cell.BasicLSTMCell(lstm_size, forget_bias=1.0, state_is_tuple=True)
+    lstm = rnn.BasicLSTMCell(lstm_size, forget_bias=1.0, state_is_tuple=True)
 
     # Get lstm cell output, time_step_size (28) arrays with lstm_size output: (batch_size, lstm_size)
-    outputs, _states = tf.nn.rnn(lstm, X_split, dtype=tf.float32)
+    outputs, _states = rnn.static_rnn(lstm, X_split, dtype=tf.float32)
 
     # Linear activation
     # Get the last output
@@ -64,7 +65,7 @@ B = init_weights([10])
 
 py_x, state_size = model(X, W, B, lstm_size)
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=py_x, labels=Y))
 train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
 predict_op = tf.argmax(py_x, 1)
 
@@ -74,7 +75,7 @@ session_conf.gpu_options.allow_growth = True
 # Launch the graph in a session
 with tf.Session(config=session_conf) as sess:
     # you need to initialize all variables
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
 
     for i in range(100):
         for start, end in zip(range(0, len(trX), batch_size), range(batch_size, len(trX)+1, batch_size)):

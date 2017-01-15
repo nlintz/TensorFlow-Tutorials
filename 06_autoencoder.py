@@ -66,7 +66,7 @@ trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images, 
 # Launch the graph in a session
 with tf.Session() as sess:
     # you need to initialize all variables
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
 
     for i in range(100):
         for start, end in zip(range(0, len(trX), 128), range(128, len(trX)+1, 128)):

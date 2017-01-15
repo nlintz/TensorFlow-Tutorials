@@ -58,3 +58,6 @@ MNIST_data/
 
 # OSX stuff
 .DS_Store
+/in_vis.png
+/word2vec.png
+/pred_vis.png

@@ -19,6 +19,6 @@ Newmu's [Theano Tutorials](https://github.com/Newmu/Theano-Tutorials).
 * [Save and restore net](10_save_restore_net.py)
 
 ***Dependencies***
-* TensorFlow
+* TensorFlow 1.0 alpha
 * Numpy
 * matplotlib
