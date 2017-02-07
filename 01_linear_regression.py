@@ -11,7 +11,7 @@ Y = tf.placeholder("float")
 
 
 def model(X, w):
-    return tf.mul(X, w) # lr is just X*w so this model line is pretty simple
+    return tf.multiply(X, w) # lr is just X*w so this model line is pretty simple
 
 
 w = tf.Variable(0.0, name="weights") # create a shared variable (like theano.shared) for the weight matrix
