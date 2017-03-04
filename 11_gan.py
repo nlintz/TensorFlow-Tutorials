@@ -3,8 +3,7 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 from PIL import Image
 
-#mnist = input_data.read_data_sets("MNIST_data/")
-mnist = input_data.read_data_sets("mnist/input_data/")
+mnist = input_data.read_data_sets("MNIST_data/")
 images = mnist.train.images
 
 def xavier_initializer(shape):
