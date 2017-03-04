@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
-from PIL import Image
+#from PIL import Image
 
 mnist = input_data.read_data_sets("MNIST_data/")
 images = mnist.train.images
@@ -106,6 +106,6 @@ with tf.Session() as sess:
     image = sess.run(G(z), feed_dict={z:generate_z()})
     image1 = image[0].reshape([28, 28])
     #print image1
-    im = Image.fromarray(image1)
-    im.show()
+    #im = Image.fromarray(image1)
+    #im.show()
 
