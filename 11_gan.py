@@ -40,7 +40,7 @@ d_weights ={
 def G(z, w=g_weights):
     # here tanh is better than relu
     h1 = tf.tanh(tf.matmul(z, w['w1']) + w['b1'])
-    # pixel output is in range [0, 255] 
+    # pixel output is in range [0, 255]
     return tf.sigmoid(tf.matmul(h1, w['out']) + w['b2']) * 255
 
 def D(x, w=d_weights):
