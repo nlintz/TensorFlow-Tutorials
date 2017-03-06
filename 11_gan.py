@@ -11,7 +11,7 @@ def xavier_initializer(shape):
 
 # Generator
 z_size = 100  # maybe larger
-g_w1_size = 400 
+g_w1_size = 400
 g_out_size = 28 * 28
 
 # Discriminator
