@@ -54,19 +54,16 @@ def generate_z(n=1):
 
 sample = G(z)
 
-# Objective functions
-def sigmoid_cross_entropy_with_logits(x, y):
-    return tf.nn.sigmoid_cross_entropy_with_logits(logits=x, labels=y)
 
 dout_real = D(X)
 dout_fake = D(G(z))
 
 G_obj = tf.reduce_mean(
-        sigmoid_cross_entropy_with_logits(dout_fake, tf.ones_like(dout_fake)))
+        tf.nn.sigmoid_cross_entropy_with_logits(logits=dout_fake, labels=tf.ones_like(dout_fake)))
 D_obj_real = tf.reduce_mean( # use single side smoothing
-        sigmoid_cross_entropy_with_logits(dout_real, tf.ones_like(dout_real)-0.1))
+        tf.nn.sigmoid_cross_entropy_with_logits(logits=dout_real, labels=(tf.ones_like(dout_real)-0.1))) 
 D_obj_fake = tf.reduce_mean(
-        sigmoid_cross_entropy_with_logits(dout_fake, tf.zeros_like(dout_fake)))
+        tf.nn.sigmoid_cross_entropy_with_logits(logits=dout_fake, labels=tf.zeros_like(dout_fake))) 
 D_obj = D_obj_real + D_obj_fake
 
 G_opt = tf.train.AdamOptimizer().minimize(G_obj, var_list=g_weights.values())
