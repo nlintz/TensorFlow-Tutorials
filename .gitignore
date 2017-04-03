@@ -67,3 +67,6 @@ MNIST_data/
 
 #tensorboard logs
 logs/
+
+#ipython notebook
+.ipynb_checkpoints/
