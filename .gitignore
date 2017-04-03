@@ -61,3 +61,12 @@ MNIST_data/
 /in_vis.png
 /word2vec.png
 /pred_vis.png
+
+# pycharm stuff:
+.idea/
+
+#tensorboard logs
+logs/
+
+#ipython notebook
+.ipynb_checkpoints/
