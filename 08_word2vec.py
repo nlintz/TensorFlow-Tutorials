@@ -89,7 +89,7 @@ nce_biases = tf.Variable(tf.zeros([voc_size]))
 # This does the magic:
 #   tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled, num_classes ...)
 # It automatically draws negative samples when we evaluate the loss.
-loss = tf.reduce_mean(tf.nn.nce_loss(nce_weights, nce_biases, train_labels, embed, num_sampled, voc_size))
+loss = tf.reduce_mean(tf.nn.nce_loss(nce_weights, nce_biases, embed, train_labels, num_sampled, voc_size))
 
 # Use the adam optimizer
 train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
