@@ -66,8 +66,8 @@ D_obj_fake = tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=dout_fake, labels=tf.zeros_like(dout_fake))) 
 D_obj = D_obj_real + D_obj_fake
 
-G_opt = tf.train.AdamOptimizer().minimize(G_obj, var_list=g_weights.values())
-D_opt = tf.train.AdamOptimizer().minimize(D_obj, var_list=d_weights.values())
+G_opt = tf.train.AdamOptimizer().minimize(G_obj, var_list=list(g_weights.values()))
+D_opt = tf.train.AdamOptimizer().minimize(D_obj, var_list=list(d_weights.values()))
 
 ## Training
 batch_size = 128
