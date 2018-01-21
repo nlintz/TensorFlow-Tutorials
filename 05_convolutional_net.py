@@ -47,7 +47,7 @@ Y = tf.placeholder("float", [None, 10])
 
 w = init_weights([3, 3, 1, 32])       # 3x3x1 conv, 32 outputs
 w2 = init_weights([3, 3, 32, 64])     # 3x3x32 conv, 64 outputs
-w3 = init_weights([3, 3, 64, 128])    # 3x3x32 conv, 128 outputs
+w3 = init_weights([3, 3, 64, 128])    # 3x3x64 conv, 128 outputs
 w4 = init_weights([128 * 4 * 4, 625]) # FC 128 * 4 * 4 inputs, 625 outputs
 w_o = init_weights([625, 10])         # FC 625 inputs, 10 outputs (labels)
 
