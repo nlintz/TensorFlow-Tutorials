@@ -23,3 +23,4 @@ Newmu's [Theano Tutorials](https://github.com/Newmu/Theano-Tutorials).
 * TensorFlow 1.0 alpha
 * Numpy
 * matplotlib
+i don't know what this is 
